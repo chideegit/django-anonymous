@@ -15,8 +15,8 @@ def dashboard(request):
 
 
 def leave_review(request, username):
+    user = User.objects.get(username=username)
     if request.method == 'POST':
-        user = User.objects.get(username=username)
         form = LeaveReviewForm(request.POST)
         if form.is_valid():
             var = form.save(commit=False)
@@ -29,5 +29,5 @@ def leave_review(request, username):
             return redirect('leave-review')
     else:
         form = LeaveReviewForm
-        context = {'form':form}
+        context = {'form':form, 'user':user}
     return render(request, 'dashboard/leave_review.html', context)
