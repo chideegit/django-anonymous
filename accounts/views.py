@@ -27,6 +27,7 @@ def login_user(request):
 
         if user is not None and user.is_active:
             login(request, user)
+            return redirect('dashboard')
         else:
             messages.warning(request, 'Something went wrong. Please check form errors')
             return redirect('login')

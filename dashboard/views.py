@@ -3,9 +3,11 @@ from django.contrib import messages
 from .form import * 
 from .models import * 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
+@login_required
 def dashboard(request):
     reviews = Review.objects.filter(user=request.user)
     context = {'reviews':reviews}
