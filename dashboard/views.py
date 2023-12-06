@@ -9,7 +9,7 @@ User = get_user_model()
 
 @login_required
 def dashboard(request):
-    reviews = Review.objects.filter(user=request.user)
+    reviews = Review.objects.filter(user=request.user).order_by('-timestamp')
     context = {'reviews':reviews}
     return render(request, 'dashboard/dashboard.html', context)
 
@@ -23,7 +23,7 @@ def leave_review(request, username):
             var.user = user 
             var.save()
             messages.success(request, f'Your review has been recorded and anonymously shared with {user}')
-            return redirect('dashboard')
+            return redirect('completed')
         else:
             messages.warning(request, 'Something went wrong. Please check form errors')
             return redirect('leave-review')
@@ -31,3 +31,6 @@ def leave_review(request, username):
         form = LeaveReviewForm
         context = {'form':form, 'user':user}
     return render(request, 'dashboard/leave_review.html', context)
+
+def completed(request):
+    return render(request, 'dashboard/completed.html')

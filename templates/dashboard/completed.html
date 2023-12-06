@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Create your own Profile Now</h1>
+        <p class="col-md-8 fs-4">
+            See what your colleagues and friends have to share about you. Completely anonymous and fun!
+            All you have to do is copy the link below and share with them😁
+        </p>
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Create Account</a>
+    </div>
+</div>
+
+{% endblock content %}

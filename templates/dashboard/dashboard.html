@@ -1,24 +1,61 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block content %}
 
 <div class="p-5 mb-4 bg-light rounded-3">
     <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold">Custom Dashboard</h1>
-        <p class="col-md-8 fs-4">Let your friends and colleague leave you a review via 
-            http://127.0.0.1:8000/leave-review/{{request.user.username}}
+        <p class="col-md-8 fs-4">
+            See what your colleagues and friends have to share about you. Completely anonymous and fun!
+            All you have to do is copy the link below and share with them😁
         </p>
-        <form class="p-4 p-md-5 border rounded-3 bg-light col-md-4" method="POST">
-            {% csrf_token %}
-            <div class="form-floating mb-3">
-                <input type="input" name="username" class="form-control" id="floatingInput">
-                <label for="floatingInput">Username</label>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="inputPassword2" class="visually-hidden">Password</label>
+                <input type="input" readonly value="http://127.0.0.1:8000/leave-review/{{request.user.username}}"
+                    class="form-control" id="myInput" placeholder="Password">
             </div>
-            
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
-        </form>
-        <button class="btn btn-primary btn-lg" type="button">Example button</button>
+            <div class="col-auto">
+                <button onclick="myFunction()" class="btn btn-primary mb-3">Copy Link</button>
+            </div>
+        </div>
     </div>
 </div>
+
+<div>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for review in reviews %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">From Anonymous</h5>
+                    <p class="card-text">{{review.leave_review}}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Recorded {{review.timestamp|naturaltime}}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function myFunction() {
+        // Get the text field
+        var copyText = document.getElementById("myInput");
+
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+
+        // Alert the copied text
+        alert("Copied the text: " + copyText.value);
+    }
+</script>
 
 {% endblock content %}
